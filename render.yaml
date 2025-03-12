@@ -96,10 +96,65 @@ services:
         value: https://api.sophosic.ai
       - key: N8N_FRONTEND_DOMAIN_URL
         value: https://workflows.sophosic.ai
+      # Redis configuration for Sophia agent memory
+      - key: REDIS_HOST
+        fromService:
+          name: redis-memory
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: redis-memory
+          type: redis
+          property: port
+      - key: REDIS_PASSWORD
+        fromService:
+          name: redis-memory
+          type: redis
+          property: password
+      - key: REDIS_DB
+        value: 0
+      - key: N8N_REDIS_HOST
+        fromService:
+          name: redis-memory
+          type: redis
+          property: host
+      - key: N8N_REDIS_PORT
+        fromService:
+          name: redis-memory
+          type: redis
+          property: port
+      - key: N8N_REDIS_PASSWORD
+        fromService:
+          name: redis-memory
+          type: redis
+          property: password
+      - key: N8N_CACHE_REDIS_HOST
+        fromService:
+          name: redis-memory
+          type: redis
+          property: host
+      - key: N8N_CACHE_REDIS_PORT
+        fromService:
+          name: redis-memory
+          type: redis
+          property: port
+      - key: N8N_CACHE_REDIS_PASSWORD
+        fromService:
+          name: redis-memory
+          type: redis
+          property: password
     disk:
       name: n8nDisk
       mountPath: /home/node/.n8n
       sizeGB: 10
+
+  - type: redis
+    name: redis-memory
+    ipAllowList: # required
+      - source: 0.0.0.0/0
+        description: everywhere
+    plan: starter # See pricing https://render.com/pricing#redis
 
 databases:
   - name: n8nDB
