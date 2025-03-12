@@ -70,18 +70,28 @@ services:
         value: false
       - key: WEBHOOK_URL
         value: https://api.sophosic.ai/
-      - key: N8N_WEBHOOK_TEST_URL
-        value: https://api.sophosic.ai/
-      - key: N8N_EDITOR_BASE_URL
-        value: https://workflows.sophosic.ai/
-      - key: N8N_EDITOR_BASE_API_URL
-        value: https://api.sophosic.ai/
       - key: N8N_HOST
         value: workflows.sophosic.ai
       - key: N8N_PROTOCOL
         value: https
       - key: N8N_PORT
         value: 443
+      - key: N8N_RUNNERS_ENABLED
+        value: true
+      - key: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
+        value: true
+      - key: N8N_RELEASE_DATE
+        value: "2025-03-12T00:00:00Z"
+      - key: N8N_WEBHOOK_URL
+        value: https://api.sophosic.ai/
+      - key: N8N_WEBHOOK_TEST_URL
+        value: https://api.sophosic.ai/
+      - key: N8N_EDITOR_BASE_URL
+        value: https://workflows.sophosic.ai/
+      - key: N8N_EDITOR_BASE_API_URL
+        value: https://api.sophosic.ai/
+      - key: N8N_FRONTEND_DOMAIN_URL
+        value: https://workflows.sophosic.ai
     disk:
       name: n8nDisk
       mountPath: /home/node/.n8n
