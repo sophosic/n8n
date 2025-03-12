@@ -107,11 +107,11 @@ services:
           name: redis-memory
           type: redis
           property: port
-      - key: REDIS_PASSWORD
+      - key: REDIS_URL
         fromService:
           name: redis-memory
           type: redis
-          property: password
+          property: connectionString
       - key: REDIS_DB
         value: 0
       - key: N8N_REDIS_HOST
@@ -124,11 +124,11 @@ services:
           name: redis-memory
           type: redis
           property: port
-      - key: N8N_REDIS_PASSWORD
+      - key: N8N_REDIS_URL
         fromService:
           name: redis-memory
           type: redis
-          property: password
+          property: connectionString
       - key: N8N_CACHE_REDIS_HOST
         fromService:
           name: redis-memory
@@ -139,11 +139,11 @@ services:
           name: redis-memory
           type: redis
           property: port
-      - key: N8N_CACHE_REDIS_PASSWORD
+      - key: N8N_CACHE_REDIS_URL
         fromService:
           name: redis-memory
           type: redis
-          property: password
+          property: connectionString
     disk:
       name: n8nDisk
       mountPath: /home/node/.n8n
@@ -155,6 +155,7 @@ services:
       - source: 0.0.0.0/0
         description: everywhere
     plan: starter # See pricing https://render.com/pricing#redis
+    maxmemoryPolicy: noeviction
 
 databases:
   - name: n8nDB
