@@ -159,8 +159,4 @@ services:
 
 databases:
   - name: n8nDB
-    plan:
-      name: standard-0
-      cpu: 0.25
-      storage: 1
-      connections: 10
+    plan: standard
