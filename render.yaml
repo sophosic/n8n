@@ -75,4 +75,4 @@ services:
 
 databases:
   - name: n8nDB
-    plan: starter
+    plan: free
