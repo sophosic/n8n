@@ -159,4 +159,4 @@ services:
 
 databases:
   - name: n8nDB
-    plan: basic-256
+    plan: starter
