@@ -29,7 +29,7 @@ services:
           name: n8nDB
           property: password
       - key: PORT
-        value: 5678
+        value: 443
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
       - key: DB_TYPE
@@ -68,14 +68,18 @@ services:
         value: false
       - key: EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS
         value: false
+      - key: EXECUTIONS_MODE
+        value: regular
       - key: WEBHOOK_URL
-        value: https://api.sophosic.ai/
+        value: https://api.sophosic.ai
       - key: N8N_HOST
         value: workflows.sophosic.ai
       - key: N8N_PROTOCOL
         value: https
       - key: N8N_PORT
         value: 443
+      - key: N8N_PATH
+        value: /
       - key: N8N_RUNNERS_ENABLED
         value: true
       - key: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
@@ -83,13 +87,13 @@ services:
       - key: N8N_RELEASE_DATE
         value: "2025-03-12T00:00:00Z"
       - key: N8N_WEBHOOK_URL
-        value: https://api.sophosic.ai/
+        value: https://api.sophosic.ai
       - key: N8N_WEBHOOK_TEST_URL
-        value: https://api.sophosic.ai/
+        value: https://api.sophosic.ai
       - key: N8N_EDITOR_BASE_URL
-        value: https://workflows.sophosic.ai/
+        value: https://workflows.sophosic.ai
       - key: N8N_EDITOR_BASE_API_URL
-        value: https://api.sophosic.ai/
+        value: https://api.sophosic.ai
       - key: N8N_FRONTEND_DOMAIN_URL
         value: https://workflows.sophosic.ai
     disk:
