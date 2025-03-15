@@ -1,0 +1,1 @@
+Fix Task Runner errors by applying patch to depd package and setting NODE_OPTIONS

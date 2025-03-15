@@ -59,6 +59,26 @@ If you're using webhooks, you'll need to use your Render URL or custom domain. T
 - **Persistent Disk Issues**: Ensure the disk is mounted at `/home/node/.n8n`
 - **Service Not Starting**: Check the service logs in the Render dashboard for error messages
 
+### Task Runner Errors
+
+If you encounter errors like this in your logs:
+
+```
+[Task Runner]: Task runner failed to start {
+  error: EvalError: Code generation from strings disallowed for this context
+      at new Function (<anonymous>)
+      ...
+}
+```
+
+This deployment includes specific fixes:
+
+1. Sets `NODE_OPTIONS="--no-experimental-fetch --disable-proto=throw"` to modify runtime behavior
+2. Applies a patch to the `depd` package to remove its use of `new Function()`
+3. Updates environment variables in render.yaml to further disable restrictions
+
+These changes allow the Task Runner to work properly in environments that restrict dynamic code evaluation.
+
 ## Using External and Built-in Modules
 
 This deployment is configured to allow various external npm modules and built-in Node.js modules. The following modules are enabled:

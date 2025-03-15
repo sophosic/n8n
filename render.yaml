@@ -32,9 +32,11 @@ services:
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
       - key: NODE_FUNCTION_ALLOW_EXTERNAL
-        value: youtube-transcript,axios,lodash,moment,express
+        value: youtube-transcript,axios,lodash,moment,express,cheerio,request,got,node-fetch,csv-parser,xml2js,jsdom,rss-parser,qs,uuid,jsonwebtoken,openai,langchain,sharp,pdf-parse,html-to-text,dotenv,nodemailer
       - key: NODE_FUNCTION_ALLOW_BUILTIN
-        value: crypto,fs
+        value: crypto,fs,path,http,https,stream,url,os,util,buffer,querystring,string_decoder,zlib,readline
+      - key: NODE_OPTIONS
+        value: --no-experimental-fetch --disable-proto=throw
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_DATABASE

@@ -1,0 +1,11 @@
+function wrapfunction (fn) {
+  var wrapper = createwrapper(fn.name)
+
+  // Safe wrapper function that preserves the original functionality without using new Function
+  wrapper = function() {
+    var args = Array.prototype.slice.call(arguments);
+    return fn.apply(this, args);
+  };
+
+  return wrapper
+}
