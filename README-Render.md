@@ -61,7 +61,34 @@ If you're using webhooks, you'll need to use your Render URL or custom domain. T
 
 ## Using External and Built-in Modules
 
-This deployment is configured to allow **all external npm modules and built-in Node.js modules**. You can use any module in your Function/Code nodes without restrictions.
+This deployment is configured to allow various external npm modules and built-in Node.js modules. The following modules are enabled:
+
+### External Modules
+- youtube-transcript - Get YouTube video transcripts
+- axios - HTTP client
+- lodash - Utility library
+- moment - Date manipulation
+- express - Web server framework
+- cheerio - HTML parsing
+- request, got, node-fetch - API interactions
+- csv-parser, xml2js - Data parsing
+- jsdom, rss-parser - DOM manipulation and RSS parsing
+- qs, uuid - Query string and UUID generation
+- jsonwebtoken - JWT handling
+- openai, langchain - AI integrations
+- sharp - Image processing
+- pdf-parse, html-to-text - Document parsing
+- dotenv - Environment variable management
+- nodemailer - Email sending
+
+### Built-in Modules
+- crypto - Cryptography
+- fs, path - File system operations
+- http, https - HTTP services
+- stream, buffer - Data handling
+- url, os, util - Utilities
+- querystring, string_decoder - String manipulation
+- zlib, readline - Compression and input handling
 
 ### Example: YouTube Transcript
 
@@ -99,35 +126,24 @@ return [
 ];
 ```
 
-### Example: Using Any npm Module
-
-You can now use any npm module that's globally installed or available in the n8n container:
-
-```javascript
-// Using axios for HTTP requests
-const axios = require('axios');
-
-// Example: Make an API request
-return new Promise((resolve, reject) => {
-  axios.get('https://jsonplaceholder.typicode.com/posts/1')
-    .then(response => {
-      return resolve([{ json: response.data }]);
-    })
-    .catch(error => {
-      return reject(`Error making request: ${error.message}`);
-    });
-});
-```
-
 ### Adding Custom Modules
 
-If you need a specific npm module that's not pre-installed, you can:
+If you need additional npm modules, modify the Dockerfile and render.yaml:
 
-1. Add it to the Dockerfile:
+1. In the Dockerfile, add the module installation:
    ```dockerfile
+   USER root
    RUN npm install -g your-module-name
+   USER node
    ```
-2. Redeploy your n8n instance on Render
+
+2. In render.yaml, add the module to NODE_FUNCTION_ALLOW_EXTERNAL:
+   ```yaml
+   - key: NODE_FUNCTION_ALLOW_EXTERNAL
+     value: module1,module2,your-module-name
+   ```
+
+3. Redeploy your n8n instance on Render
 
 ## Additional Resources
 
