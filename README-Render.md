@@ -73,8 +73,8 @@ If you encounter errors like this in your logs:
 
 This deployment includes specific fixes:
 
-1. Sets `NODE_OPTIONS="--no-experimental-fetch --disable-proto=throw"` to modify runtime behavior
-2. Integrates a patch directly in the Dockerfile that modifies the `depd` package to remove its use of `new Function()`
+1. Sets `NODE_OPTIONS="--no-experimental-fetch"` to modify runtime behavior
+2. Uses `sed` to directly modify the `depd` package, replacing `new Function()` calls with a safer equivalent
 3. Updates environment variables in render.yaml to further disable restrictions
 
 These changes allow the Task Runner to work properly in environments that restrict dynamic code evaluation.
