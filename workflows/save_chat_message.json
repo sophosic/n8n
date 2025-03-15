@@ -1,0 +1,112 @@
+{
+  "name": "Save Chat Message",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat/save",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- First, ensure the session exists\nINSERT INTO chat_sessions (session_id, summary)\nVALUES ('{{$json.sessionId}}', '{{$json.summary || \"Chat conversation\"}}')\nON CONFLICT (session_id) DO NOTHING;\n\n-- Then insert the message\nINSERT INTO chat_messages (session_id, author, content, state, timestamp, metadata)\nVALUES (\n  '{{$json.sessionId}}',\n  '{{$json.author}}',\n  '{{$json.content}}',\n  '{{$json.state || \"sent\"}}',\n  '{{$json.timestamp || \"now()\"}}',\n  '{{$json.metadata || \"{}\"}}'\n)\nRETURNING message_id;",
+        "additionalFields": {}
+      },
+      "name": "PostgreSQL",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "postgres",
+          "name": "PostgreSQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "type": "hmac",
+        "value": "{{$json.sessionId}}",
+        "action": "set",
+        "property": "redis:chat:{{$json.sessionId}}",
+        "options": {
+          "ttl": 86400
+        }
+      },
+      "name": "Redis",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ],
+      "credentials": {
+        "redis": {
+          "id": "redis",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"success\": true, \"message_id\": $('PostgreSQL').first().message_id }",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "PostgreSQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PostgreSQL": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

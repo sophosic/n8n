@@ -59,6 +59,76 @@ If you're using webhooks, you'll need to use your Render URL or custom domain. T
 - **Persistent Disk Issues**: Ensure the disk is mounted at `/home/node/.n8n`
 - **Service Not Starting**: Check the service logs in the Render dashboard for error messages
 
+## Using External and Built-in Modules
+
+This deployment is configured to allow **all external npm modules and built-in Node.js modules**. You can use any module in your Function/Code nodes without restrictions.
+
+### Example: YouTube Transcript
+
+```javascript
+// In a Function node
+const { YoutubeTranscript } = require('youtube-transcript');
+
+// Example: Get transcript of a YouTube video
+return new Promise((resolve, reject) => {
+  const videoId = items[0].json.videoId || 'jNQXAC9IVRw'; // Default: first YT video ever
+
+  YoutubeTranscript.fetchTranscript(videoId)
+    .then(transcript => {
+      return resolve([{ json: { transcript }}]);
+    })
+    .catch(error => {
+      return reject(`Error fetching transcript: ${error.message}`);
+    });
+});
+```
+
+### Example: Using Built-in Modules
+
+```javascript
+// Using built-in crypto module
+const crypto = require('crypto');
+
+// Example: Generate a random string
+return [
+  {
+    json: {
+      randomString: crypto.randomBytes(16).toString('hex')
+    }
+  }
+];
+```
+
+### Example: Using Any npm Module
+
+You can now use any npm module that's globally installed or available in the n8n container:
+
+```javascript
+// Using axios for HTTP requests
+const axios = require('axios');
+
+// Example: Make an API request
+return new Promise((resolve, reject) => {
+  axios.get('https://jsonplaceholder.typicode.com/posts/1')
+    .then(response => {
+      return resolve([{ json: response.data }]);
+    })
+    .catch(error => {
+      return reject(`Error making request: ${error.message}`);
+    });
+});
+```
+
+### Adding Custom Modules
+
+If you need a specific npm module that's not pre-installed, you can:
+
+1. Add it to the Dockerfile:
+   ```dockerfile
+   RUN npm install -g your-module-name
+   ```
+2. Redeploy your n8n instance on Render
+
 ## Additional Resources
 
 - [n8n Documentation](https://docs.n8n.io/)

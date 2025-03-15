@@ -31,6 +31,10 @@ services:
         value: 5678
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
+      - key: NODE_FUNCTION_ALLOW_EXTERNAL
+        value: *
+      - key: NODE_FUNCTION_ALLOW_BUILTIN
+        value: *
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_DATABASE
