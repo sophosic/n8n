@@ -32,9 +32,9 @@ services:
       - key: N8N_ENCRYPTION_KEY
         generateValue: true
       - key: NODE_FUNCTION_ALLOW_EXTERNAL
-        value: *
+        value: youtube-transcript,axios
       - key: NODE_FUNCTION_ALLOW_BUILTIN
-        value: *
+        value: crypto,fs
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_DATABASE
