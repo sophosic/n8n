@@ -150,7 +150,7 @@ services:
 
   - type: redis
     name: redis-memory
-    ipAllowList: # required
+    ipAllowList: # requiredtest-youtube-transcript
       - source: 0.0.0.0/0
         description: everywhere
     plan: starter # See pricing https://render.com/pricing#redis
