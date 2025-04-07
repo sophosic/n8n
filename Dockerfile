@@ -2,7 +2,7 @@ FROM n8nio/n8n:latest
 
 # Install git as root first
 USER root
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git
 
 # Switch back to node user for npm configuration and global installs
 USER node
