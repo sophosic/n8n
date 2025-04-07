@@ -1,8 +1,9 @@
 FROM n8nio/n8n:latest
 
-# Install git as root first
+# Install git and python/pip as root first
 USER root
-RUN apk add --no-cache git
+RUN apk add --no-cache git python3 py3-pip
+RUN pip install -U agno
 
 # Switch back to node user for npm configuration and global installs
 USER node
@@ -24,7 +25,7 @@ RUN npm install -g node-fetch
 RUN npm install -g firebase-admin
 RUN npm install -g cheerio
 RUN npm install -g groq-sdk
-RUN npm install -g github:agno-agi/agno
+# RUN npm install -g github:agno-agi/agno # Removed, installing via pip now
 
 
 # Also install the packages locally where n8n can find them
