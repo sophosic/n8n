@@ -1,12 +1,9 @@
 FROM n8nio/n8n:latest
 
-# Install git and python/pip as root first
-USER root
-RUN apk add --no-cache git python3 py3-pip
-RUN pip install -U agno
-
-# Switch back to node user for npm configuration and global installs
-USER node
+# Install Python dependencies for Agno
+RUN apt-get update && \
+    apt-get install -y python3-pip && \
+    pip3 install agno groq duckduckgo-search python-dotenv
 
 # Configure npm to install global packages in the user's home directory
 # The n8n image runs as a user with uid 1000 named 'node'
@@ -17,20 +14,18 @@ ENV PATH=$PATH:/home/node/.npm-global/bin
 ENV NODE_FUNCTION_ALLOW_EXTERNAL=axios,openai,node-fetch,firebase-admin
 ENV NODE_FUNCTION_ALLOW_BUILTIN=crypto,fs,path
 
-# Install global packages as node user
-# USER node # Already switched above
+# Switch to the node user before installing packages
+USER node
 RUN npm install -g axios
 RUN npm install -g openai
 RUN npm install -g node-fetch
 RUN npm install -g firebase-admin
 RUN npm install -g cheerio
-RUN npm install -g groq-sdk
-# RUN npm install -g github:agno-agi/agno # Removed, installing via pip now
+
 
 
 # Also install the packages locally where n8n can find them
 WORKDIR /usr/local/lib/node_modules/n8n
-
 USER root
 RUN npm install firebase-admin
 
