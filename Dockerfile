@@ -17,6 +17,8 @@ RUN npm install -g node-fetch
 RUN npm install -g firebase-admin
 RUN npm install -g cheerio
 RUN npm install -g groq-sdk
+RUN npm install -g @agno/agno
+
 
 
 # Also install the packages locally where n8n can find them
