@@ -2,17 +2,13 @@ FROM n8nio/n8n:latest
 
 # Install Python dependencies for Agno
 RUN apt-get update && \
-    apt-get install -y python3-pip && \
-    pip3 install agno groq duckduckgo-search python-dotenv
+    apt-get install -y python3-pip &&
 
 # Configure npm to install global packages in the user's home directory
 # The n8n image runs as a user with uid 1000 named 'node'
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH=$PATH:/home/node/.npm-global/bin
 
-# Set environment variable to allow external modules in n8n
-ENV NODE_FUNCTION_ALLOW_EXTERNAL=axios,openai,node-fetch,firebase-admin
-ENV NODE_FUNCTION_ALLOW_BUILTIN=crypto,fs,path
 
 # Switch to the node user before installing packages
 USER node
@@ -20,7 +16,6 @@ RUN npm install -g axios
 RUN npm install -g openai
 RUN npm install -g node-fetch
 RUN npm install -g firebase-admin
-RUN npm install -g cheerio
 
 
 
